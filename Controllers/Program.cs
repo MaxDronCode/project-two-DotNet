@@ -4,6 +4,7 @@ using Store.Domain.Services.Implementations;
 using Store.Domain.Services.Interfaces;
 using Store.Repository;
 using Store.Repository.Implementations;
+using Store.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

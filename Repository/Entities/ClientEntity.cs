@@ -11,21 +11,21 @@ public class ClientEntity
     [Column("id")]
     [StringLength(36)]
     [Required]
-    public string id { get; set; }
+    public string Id { get; set; }
     
     [Column("nif")]
     [StringLength(10, MinimumLength = 9)]
     [Required]
-    public string nif { get; set; }
+    public string Nif { get; set; }
     
     [Column("name")]
     [StringLength(150, MinimumLength = 2)]
     [Required]
-    public string name { get; set; }
+    public string Name { get; set; }
     
     [Column("address")]
     [StringLength(150, MinimumLength = 5)]
-    public string address { get; set; }
+    public string Address { get; set; }
 
     public override bool Equals(object? obj)
     {
@@ -34,12 +34,12 @@ public class ClientEntity
             return false;
         }
         var other = (ClientEntity) obj;
-        return id == other.id;
+        return Id == other.Id;
     }
 
     public override int GetHashCode()
     {
-        return id.GetHashCode();
+        return Id.GetHashCode();
     }
     
     

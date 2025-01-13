@@ -9,10 +9,10 @@ public static class ClientMapper
     {
         var dto = new ClientResponseDto
         {
-            id = domain.id,
-            name = domain.name,
-            nif = domain.nif,
-            address = domain.address
+            Id = domain.Id.ToString(),
+            Name = domain.Name,
+            Nif = domain.Nif,
+            Address = domain.Address
         };
 
         return dto;
