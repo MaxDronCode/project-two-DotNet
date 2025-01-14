@@ -29,7 +29,7 @@ public class ClientService(IClientRepository clientRepository) : IClientService
 
     public async Task<ClientDomain> CreateClient(ClientDomain clientDomain)
     {
-        var clientNifAlreadyExists = clientRepository.DoesClientNifExist(clientDomain.Nif);
+        var clientNifAlreadyExists = await clientRepository.DoesClientNifExist(clientDomain.Nif);
         
         if (clientNifAlreadyExists)
         {
@@ -41,5 +41,25 @@ public class ClientService(IClientRepository clientRepository) : IClientService
         var createdClient = await clientRepository.CreateClient(clientDomain.ToEntity());
 
         return createdClient.ToDomain();
+    }
+
+    public async Task<ClientDomain> UpdateClient(Guid id, ClientDomain clientDomain)
+    {
+        var existingEntity = await clientRepository.GetClientById(id.ToString());
+        
+        if (existingEntity == null)
+        {
+            throw new ClientNotFoundException($"Client with id {id} not found.");
+        }
+        
+        existingEntity.Name = clientDomain.Name;
+        existingEntity.Nif = clientDomain.Nif;
+        existingEntity.Address = clientDomain.Address;
+
+        var updatedClient = await clientRepository.UpdateClient(existingEntity);
+        
+        return updatedClient.ToDomain();
+
+
     }
 }

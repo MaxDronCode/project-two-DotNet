@@ -10,5 +10,7 @@ public interface IClientRepository
     
     Task<ClientEntity> CreateClient(ClientEntity clientEntity);
     
-    bool DoesClientNifExist(string nif);
+    Task<bool> DoesClientNifExist(string nif);
+    
+    Task<ClientEntity> UpdateClient(ClientEntity clientEntity);
 }

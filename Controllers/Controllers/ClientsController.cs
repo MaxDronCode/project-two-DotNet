@@ -52,4 +52,23 @@ public class ClientsController(IClientService clientService) : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    
+    [HttpPut("{id}")]
+    public async Task<ActionResult<ClientResponseDto>> UpdateClient(string id, ClientRequestDto clientRequestDto)
+    {
+        if (!Guid.TryParse(id, out var guidId))
+        {
+            return BadRequest("Invalid id format.");
+        }
+        
+        try
+        {
+            var updatedClientDomain = await clientService.UpdateClient(Guid.Parse(id), clientRequestDto.ToDomain());
+            return Ok(updatedClientDomain.ToDto());
+        }
+        catch (ClientNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
 }

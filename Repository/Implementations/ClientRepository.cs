@@ -24,8 +24,15 @@ public class ClientRepository(AppDbContext context) : IClientRepository
         return clientEntity;
     }
 
-    public bool DoesClientNifExist(string nif)
+    public Task<bool> DoesClientNifExist(string nif)
     {
-        return context.Clients.Any(client => client.Nif == nif);
+        return Task.FromResult(context.Clients.Any(client => client.Nif == nif));
+    }
+
+    public async Task<ClientEntity> UpdateClient(ClientEntity clientEntity)
+    {
+        context.Clients.Update(clientEntity);
+        await context.SaveChangesAsync();
+        return clientEntity;
     }
 }

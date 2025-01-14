@@ -9,4 +9,6 @@ public interface IClientService
     Task<ClientDomain> GetClientById(Guid id);
     
     Task<ClientDomain> CreateClient(ClientDomain clientDomain);
+    
+    Task<ClientDomain> UpdateClient(Guid id, ClientDomain clientDomain);
 }
