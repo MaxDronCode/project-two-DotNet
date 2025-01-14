@@ -23,7 +23,11 @@ public class ClientsController(IClientService clientService) : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ClientResponseDto>> GetClientById(string id)
     {
-        Console.WriteLine($"Input string id from the controller: {id}");
+        if (!Guid.TryParse(id, out var guidId))
+        {
+            return BadRequest("Invalid id format.");
+        }
+        
         try
         {
             var clientDomain = await clientService.GetClientById(Guid.Parse(id));
