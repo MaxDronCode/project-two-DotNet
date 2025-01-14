@@ -16,4 +16,15 @@ public static class ProductMapper
 
         return dto;
     }
+
+    public static ProductDomain ToDomain(this ProductRequestDto dto)
+    {
+        var domain = new ProductDomain
+        {
+            Name = dto.Name,
+            Code = dto.Code
+        };
+
+        return domain;
+    }
 }

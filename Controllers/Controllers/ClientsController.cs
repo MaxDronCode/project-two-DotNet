@@ -35,7 +35,7 @@ public class ClientsController(IClientService clientService) : ControllerBase
         }
         catch (ClientNotFoundException e)
         {
-            return NotFound();
+            return NotFound(e.Message);
         }
     }
     
