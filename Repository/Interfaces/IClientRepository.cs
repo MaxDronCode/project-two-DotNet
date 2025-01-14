@@ -13,4 +13,6 @@ public interface IClientRepository
     Task<bool> DoesClientNifExist(string nif);
     
     Task<ClientEntity> UpdateClient(ClientEntity clientEntity);
+    
+    Task DeleteClient(ClientEntity clientEntity);
 }

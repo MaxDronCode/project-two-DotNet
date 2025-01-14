@@ -11,4 +11,6 @@ public interface IClientService
     Task<ClientDomain> CreateClient(ClientDomain clientDomain);
     
     Task<ClientDomain> UpdateClient(Guid id, ClientDomain clientDomain);
+    
+    Task DeleteClient(Guid id);
 }

@@ -71,4 +71,25 @@ public class ClientsController(IClientService clientService) : ControllerBase
             return NotFound(e.Message);
         }
     }
+    
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteClient(string id)
+    {
+        // TODO return 422 if client has sales
+        
+        if (!Guid.TryParse(id, out var guidId))
+        {
+            return BadRequest("Invalid id format.");
+        }
+        
+        try
+        {
+            await clientService.DeleteClient(Guid.Parse(id));
+            return NoContent();
+        }
+        catch (ClientNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
 }

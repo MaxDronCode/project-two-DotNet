@@ -62,4 +62,16 @@ public class ClientService(IClientRepository clientRepository) : IClientService
 
 
     }
+
+    public async Task DeleteClient(Guid id)
+    {
+        var existingClient = await clientRepository.GetClientById(id.ToString());
+        
+        if (existingClient == null)
+        {
+            throw new ClientNotFoundException($"Client with id {id} not found.");
+        }
+        
+        await clientRepository.DeleteClient(existingClient);
+    }
 }

@@ -35,4 +35,10 @@ public class ClientRepository(AppDbContext context) : IClientRepository
         await context.SaveChangesAsync();
         return clientEntity;
     }
+
+    public async Task DeleteClient(ClientEntity clientEntity)
+    {
+        context.Clients.Remove(clientEntity);
+        await context.SaveChangesAsync();
+    }
 }
