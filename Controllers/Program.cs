@@ -23,8 +23,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 // Dependencies
+    // Client
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
+    // Product
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
