@@ -16,4 +16,16 @@ public class ClientRepository(AppDbContext context) : IClientRepository
     {
         return context.Clients.FirstOrDefaultAsync(client => client.Id == id);
     }
+
+    public async Task<ClientEntity> CreateClient(ClientEntity clientEntity)
+    {
+        context.Clients.Add(clientEntity);
+        await context.SaveChangesAsync();
+        return clientEntity;
+    }
+
+    public bool DoesClientNifExist(string nif)
+    {
+        return context.Clients.Any(client => client.Nif == nif);
+    }
 }

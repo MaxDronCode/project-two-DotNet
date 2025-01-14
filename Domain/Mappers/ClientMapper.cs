@@ -17,4 +17,17 @@ public static class ClientMapper
 
         return domain;
     }
+    
+    public static ClientEntity ToEntity(this ClientDomain domain)
+    {
+        var entity = new ClientEntity
+        {
+            Id = domain.Id.ToString(),
+            Name = domain.Name,
+            Nif = domain.Nif,
+            Address = domain.Address
+        };
+
+        return entity;
+    }
 }

@@ -17,4 +17,16 @@ public static class ClientMapper
 
         return dto;
     }
+
+    public static ClientDomain ToDomain(this ClientRequestDto dto)
+    {
+        var domain = new ClientDomain
+        {
+            Nif = dto.Nif,
+            Name = dto.Name,
+            Address = dto.Address
+        };
+
+        return domain;
+    }
 }

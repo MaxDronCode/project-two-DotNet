@@ -34,4 +34,18 @@ public class ClientsController(IClientService clientService) : ControllerBase
             return NotFound();
         }
     }
+    
+    [HttpPost]
+    public async Task<ActionResult<ClientResponseDto>> CreateClient(ClientRequestDto clientRequestDto)
+    {
+        try
+        {
+            var createdClientDomain = await clientService.CreateClient(clientRequestDto.ToDomain());
+            return CreatedAtAction(nameof(GetClientById), new { id = createdClientDomain.Id }, createdClientDomain.ToDto());
+        }
+        catch (ClientAlreadyExistsException e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

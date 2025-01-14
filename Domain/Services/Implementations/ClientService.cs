@@ -26,4 +26,20 @@ public class ClientService(IClientRepository clientRepository) : IClientService
 
         return client.ToDomain();
     }
+
+    public async Task<ClientDomain> CreateClient(ClientDomain clientDomain)
+    {
+        var clientNifAlreadyExists = clientRepository.DoesClientNifExist(clientDomain.Nif);
+        
+        if (clientNifAlreadyExists)
+        {
+            throw new ClientAlreadyExistsException($"Client with NIF {clientDomain.Nif} already exists.");
+        }
+        
+        clientDomain.Id = Guid.NewGuid();
+        
+        var createdClient = await clientRepository.CreateClient(clientDomain.ToEntity());
+
+        return createdClient.ToDomain();
+    }
 }
