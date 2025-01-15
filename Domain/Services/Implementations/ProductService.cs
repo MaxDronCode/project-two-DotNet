@@ -67,4 +67,16 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         
         return updatedProduct.ToDomain();
     }
+
+    public async Task DeleteProduct(Guid id)
+    {
+        var existingProduct = await productRepository.GetProductById(id.ToString());
+
+        if (existingProduct == null)
+        {
+            throw new ProductNotFoundException($"Product with id {id} not found.");
+        }
+        
+        await productRepository.DeleteProduct(existingProduct);
+    }
 }

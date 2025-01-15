@@ -36,4 +36,10 @@ public class ProductRepository(AppDbContext context) : IProductRepository
         await context.SaveChangesAsync();
         return productEntity;
     }
+
+    public async Task DeleteProduct(ProductEntity productEntity)
+    {
+        context.Products.Remove(productEntity);
+        await context.SaveChangesAsync();
+    }
 }

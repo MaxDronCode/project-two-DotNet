@@ -75,4 +75,25 @@ public class ProductsController(IProductService productService) : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteProduct(string id)
+    {
+        // TODO return 422 if product has sales
+        if (!Guid.TryParse(id, out var _))
+        {
+            return BadRequest("Invalid id format.");
+        }
+
+        try
+        {
+            await productService.DeleteProduct(Guid.Parse(id));
+        }
+        catch (ProductNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        
+        return NoContent();
+    }
 }

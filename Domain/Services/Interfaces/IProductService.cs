@@ -11,4 +11,6 @@ public interface IProductService
     Task<ProductDomain> CreateProduct(ProductDomain productDomain);
     
     Task<ProductDomain> UpdateProduct(Guid id, ProductDomain productDomain);
+    
+    Task DeleteProduct(Guid id);
 }
