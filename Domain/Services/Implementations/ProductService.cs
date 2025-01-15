@@ -64,6 +64,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         existingProduct.Name = productDomain.Name;
 
         var updatedProduct = await productRepository.UpdateProduct(existingProduct);
+        await productRepository.SaveChanges();
         
         return updatedProduct.ToDomain();
     }

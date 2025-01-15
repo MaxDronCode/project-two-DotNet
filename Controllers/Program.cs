@@ -29,6 +29,10 @@ builder.Services.AddScoped<IClientService, ClientService>();
     // Product
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+    // Sale
+builder.Services.AddScoped<ISalesCabRepository, SalesCabRepository>();
+builder.Services.AddScoped<ISalesService, SalesService>();
+
 
 var app = builder.Build();
 

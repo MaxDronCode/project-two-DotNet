@@ -30,11 +30,22 @@ public class ProductRepository(AppDbContext context) : IProductRepository
         return productEntity;
     }
 
-    public async Task<ProductEntity> UpdateProduct(ProductEntity productEntity)
+    public Task<ProductEntity> UpdateProduct(ProductEntity productEntity)
     {
         context.Products.Update(productEntity);
-        await context.SaveChangesAsync();
-        return productEntity;
+        return Task.FromResult(productEntity);
+    }
+
+    public async Task SaveChanges()
+    {
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateException e)
+        {
+            throw new DbUpdateException("An error occurred while saving changes.", e);
+        }
     }
 
     public async Task DeleteProduct(ProductEntity productEntity)

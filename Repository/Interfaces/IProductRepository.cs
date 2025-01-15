@@ -16,4 +16,6 @@ public interface IProductRepository
     Task<ProductEntity> UpdateProduct(ProductEntity productEntity);
     
     Task DeleteProduct(ProductEntity productEntity);
+    
+    Task SaveChanges();
 }

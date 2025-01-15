@@ -55,6 +55,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .WithMany()
                 .HasForeignKey(saleCab => saleCab.ClientId)
                 .OnDelete(DeleteBehavior.Cascade);
+            entity.HasMany(saleCab => saleCab.Details)
+                .WithOne()
+                .HasForeignKey(saleDet => saleDet.SaleId);
         });
 
         modelBuilder.Entity<SaleDetEntity>(entity =>
@@ -67,10 +70,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .IsRequired();
             entity.Property(e => e.Quantity)
                 .IsRequired();
-            entity.HasOne<SaleCabEntity>()
-                .WithMany()
-                .HasForeignKey(saleDet => saleDet.SaleId)
-                .OnDelete(DeleteBehavior.Cascade);
             entity.HasOne<ProductEntity>()
                 .WithMany()
                 .HasForeignKey(saleDet => saleDet.ProductId)
