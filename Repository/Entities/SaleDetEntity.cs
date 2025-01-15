@@ -11,6 +11,6 @@ public class SaleDetEntity
     [StringLength(36, MinimumLength = 36)]
     public string ProductId { get; set; }
     
-    [Range(0, int.MaxValue)]]
+    [Range(0, int.MaxValue)]
     public int Quantity { get; set; }
 }

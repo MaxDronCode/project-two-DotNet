@@ -7,7 +7,6 @@ namespace Store.Repository.dbConfig;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<ClientEntity> Clients { get; set; }
-    
     public DbSet<ProductEntity> Products { get; set; }
     
     public DbSet<SaleCabEntity> SalesCab { get; set; }
@@ -76,9 +75,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .WithMany()
                 .HasForeignKey(saleDet => saleDet.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
-
         });
-
     }
-    
 }
