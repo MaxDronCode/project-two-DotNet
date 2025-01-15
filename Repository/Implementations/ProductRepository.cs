@@ -29,4 +29,11 @@ public class ProductRepository(AppDbContext context) : IProductRepository
         await context.SaveChangesAsync();
         return productEntity;
     }
+
+    public async Task<ProductEntity> UpdateProduct(ProductEntity productEntity)
+    {
+        context.Products.Update(productEntity);
+        await context.SaveChangesAsync();
+        return productEntity;
+    }
 }

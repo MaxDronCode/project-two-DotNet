@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.Controllers.Dtos;
+using Store.Controllers.Dtos.Client;
 using Store.Controllers.Mappers;
 using Store.Domain.Services.Interfaces;
 using Store.Exceptions.Client;

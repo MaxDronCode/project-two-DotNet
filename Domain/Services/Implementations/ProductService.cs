@@ -43,4 +43,28 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         
         return productEntity.ToDomain();
     }
+
+    public async Task<ProductDomain> UpdateProduct(Guid id, ProductDomain productDomain)
+    {
+        var existingProduct = await productRepository.GetProductById(id.ToString());
+
+        if (existingProduct == null)
+        {
+            throw new ProductNotFoundException($"Id {id} not found.");
+        }
+        
+        var productCodeAlreadyExists = await productRepository.FindProductByCode(productDomain.Code);
+        
+        if (productCodeAlreadyExists != null && productCodeAlreadyExists.Id != id.ToString())
+        {
+            throw new ProductAlreadyExistsException($"Product with code {productDomain.Code} already exists.");
+        }
+
+        existingProduct.Code = productDomain.Code;
+        existingProduct.Name = productDomain.Name;
+
+        var updatedProduct = await productRepository.UpdateProduct(existingProduct);
+        
+        return updatedProduct.ToDomain();
+    }
 }

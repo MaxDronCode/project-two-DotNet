@@ -1,4 +1,5 @@
 ﻿using Store.Controllers.Dtos;
+using Store.Controllers.Dtos.Client;
 using Store.Domain.Models;
 
 namespace Store.Controllers.Mappers;

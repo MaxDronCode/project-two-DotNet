@@ -9,4 +9,6 @@ public interface IProductService
     Task<ProductDomain> GetProductById(Guid id);
     
     Task<ProductDomain> CreateProduct(ProductDomain productDomain);
+    
+    Task<ProductDomain> UpdateProduct(Guid id, ProductDomain productDomain);
 }

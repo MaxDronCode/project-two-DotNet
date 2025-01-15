@@ -12,4 +12,6 @@ public interface IProductRepository
     Task<ProductEntity?> FindProductByCode(string code);
     
     Task<ProductEntity> CreateProduct(ProductEntity productEntity);
+    
+    Task<ProductEntity> UpdateProduct(ProductEntity productEntity);
 }

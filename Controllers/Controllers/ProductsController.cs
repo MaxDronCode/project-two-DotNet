@@ -52,4 +52,27 @@ public class ProductsController(IProductService productService) : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    
+    [HttpPut("{id}")]
+    public async Task<ActionResult<ProductResponseDto>> UpdateProduct(string id, ProductRequestDto productRequestDto)
+    {
+        if (!Guid.TryParse(id, out var guidId))
+        {
+            return BadRequest("Invalid id format.");
+        }
+        
+        try
+        {
+            var productDomain = await productService.UpdateProduct(Guid.Parse(id), productRequestDto.ToDomain());
+            return Ok(productDomain.ToDto());
+        }
+        catch (ProductNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (ProductAlreadyExistsException e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }
