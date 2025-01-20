@@ -2,7 +2,6 @@ using Store.Repository.dbConfig;
 using Microsoft.EntityFrameworkCore;
 using Store.Domain.Services.Implementations;
 using Store.Domain.Services.Interfaces;
-using Store.Repository;
 using Store.Repository.Implementations;
 using Store.Repository.Interfaces;
 
@@ -32,7 +31,9 @@ builder.Services.AddScoped<IProductService, ProductService>();
     // Sale
 builder.Services.AddScoped<ISalesCabRepository, SalesCabRepository>();
 builder.Services.AddScoped<ISalesService, SalesService>();
-
+    // Purchase
+builder.Services.AddScoped<IPurchaseService, PurchaseService>();
+builder.Services.AddScoped<IPurchaseCabRepository, PurchaseCabRepository>();
 
 var app = builder.Build();
 

@@ -12,6 +12,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<SaleCabEntity> SalesCab { get; set; }
     
     public DbSet<SaleDetEntity> SalesDet { get; set; }
+    
+    public DbSet<PurchaseCabEntity> PurchasesCab { get; set; }
+    
+    public DbSet<PurchaseDetEntity> PurchasesDet { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -73,6 +77,35 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.HasOne<ProductEntity>()
                 .WithMany()
                 .HasForeignKey(saleDet => saleDet.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<PurchaseCabEntity>(entity =>
+        {
+            entity.ToTable("purchases_cab");
+            entity.HasKey(purchaseCab => purchaseCab.Id);
+            entity.Property(e => e.Id)
+                .IsRequired();
+            entity.Property(e => e.Supplier)
+                .IsRequired();
+            entity.HasMany(purchaseCab => purchaseCab.Details)
+                .WithOne()
+                .HasForeignKey(purchaseDet => purchaseDet.PurchaseId);
+        });
+
+        modelBuilder.Entity<PurchaseDetEntity>(entity =>
+        {
+            entity.ToTable("purchases_det");
+            entity.HasKey(purchaseDet => new { purchaseDet.PurchaseId, purchaseDet.ProductId });
+            entity.Property(e => e.PurchaseId)
+                .IsRequired();
+            entity.Property(e => e.ProductId)
+                .IsRequired();
+            entity.Property(e => e.Quantity)
+                .IsRequired();
+            entity.HasOne<ProductEntity>()
+                .WithMany()
+                .HasForeignKey(purchaseDet => purchaseDet.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }
