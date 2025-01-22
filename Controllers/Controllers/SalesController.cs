@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Store.Controllers.Dtos.Product;
 using Store.Controllers.Dtos.Sale;
 using Store.Controllers.Mappers;
 using Store.Domain.Services.Interfaces;
@@ -31,5 +32,13 @@ public class SalesController(ISalesService salesService) : ControllerBase
         {
             return NotFound(e.Message);
         }
+    }
+
+    [HttpGet("most-sold-products")]
+    public async Task<ActionResult<List<ProductInSaleDto>>> GetMostSoldProducts()
+    {
+        var productsDomain = await salesService.GetTop5SoldProducts();
+
+        return Ok(productsDomain.ToDto());
     }
 }

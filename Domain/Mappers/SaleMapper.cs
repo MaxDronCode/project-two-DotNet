@@ -38,4 +38,19 @@ public static class SaleMapper
         
         return entity;
     }
+    
+    public static List<ProductInSaleDomain> ToDomain(this List<Top5SoldProductsEntity> entities)
+    {
+        var domains = entities.Select(entity => new ProductInSaleDomain
+        {
+            Product = new SingleProductInSaleDomain
+            {
+                Id = Guid.Parse(entity.Id),
+                Name = entity.Name
+            },
+            Quantity = entity.Quantity
+        }).ToList();
+
+        return domains;
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Store.Controllers.Dtos.Sale;
+﻿using Store.Controllers.Dtos.Product;
+using Store.Controllers.Dtos.Sale;
 using Store.Domain.Models;
 
 namespace Store.Controllers.Mappers;
@@ -36,5 +37,18 @@ public static class SaleMapper
         }).ToList();
 
         return domain;
+    }
+
+    public static List<ProductInSaleDto> ToDto(this List<ProductInSaleDomain> domains)
+    {
+        return domains.Select(domain => new ProductInSaleDto
+        {
+            Type = new SingleProductInSaleDto
+            {
+                Id = domain.Product.Id.ToString(),
+                Name = domain.Product.Name
+            },
+            Quantity = domain.Quantity
+        }).ToList();
     }
 }

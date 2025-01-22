@@ -31,6 +31,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
     // Sale
 builder.Services.AddScoped<ISalesCabRepository, SalesCabRepository>();
 builder.Services.AddScoped<ISalesService, SalesService>();
+builder.Services.AddScoped<ISalesDetRepository, SalesDetRepository>();
     // Purchase
 builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 builder.Services.AddScoped<IPurchaseCabRepository, PurchaseCabRepository>();

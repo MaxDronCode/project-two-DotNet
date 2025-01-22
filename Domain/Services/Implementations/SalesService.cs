@@ -7,7 +7,7 @@ using Store.Repository.Interfaces;
 
 namespace Store.Domain.Services.Implementations;
 
-public class SalesService(ISalesCabRepository salesCabRepository, IClientRepository clientRepository, IProductRepository productRepository) : ISalesService
+public class SalesService(ISalesCabRepository salesCabRepository,ISalesDetRepository salesDetRepository, IClientRepository clientRepository, IProductRepository productRepository) : ISalesService
 {
     public async Task CreateSale(SaleRequestDomain saleRequestDomain)
     {
@@ -47,5 +47,12 @@ public class SalesService(ISalesCabRepository salesCabRepository, IClientReposit
         saleCabDomain.Id = Guid.NewGuid();
         
         await salesCabRepository.CreateSale(saleCabDomain.ToEntity());
+    }
+
+    public async Task<List<ProductInSaleDomain>> GetTop5SoldProducts()
+    {
+        var productsEntity = await salesDetRepository.GetTop5SoldProducts();
+
+        return productsEntity.ToDomain();
     }
 }
