@@ -2,11 +2,12 @@
 using Store.Domain.Models;
 using Store.Domain.Services.Interfaces;
 using Store.Exceptions.Client;
+using Store.Exceptions.Product;
 using Store.Repository.Interfaces;
 
 namespace Store.Domain.Services.Implementations;
 
-public class ClientService(IClientRepository clientRepository) : IClientService
+public class ClientService(IClientRepository clientRepository, IProductRepository productRepository) : IClientService
 {
     public IEnumerable<ClientDomain> GetAllClients()
     {
@@ -73,5 +74,57 @@ public class ClientService(IClientRepository clientRepository) : IClientService
         }
         
         await clientRepository.DeleteClient(existingClient);
+    }
+
+    public async Task<List<PastSalesResponseDomain>> GetPastSalesOfAClient(Guid clientId)
+    {
+        var existingClient = await clientRepository.GetClientById(clientId.ToString());
+
+        if (existingClient == null)
+            throw new ClientNotFoundException($"Client with id {clientId} not found.");
+        
+        
+        var pastSales = await clientRepository.GetPastSalesOfAClient(clientId.ToString());
+
+        var sales = new List<PastSalesResponseDomain>();
+
+        foreach (var pastSale in pastSales)
+        {
+            var pastSaleResponseDomain = new PastSalesResponseDomain();
+
+            pastSaleResponseDomain.Id = Guid.Parse(pastSale.Id);
+            
+            var productsInSaleDomainList = new List<ProductInSaleDomain>();
+
+            foreach (var saleDetEntity in pastSale.Details)
+            {
+                var productId = saleDetEntity.ProductId;
+                var productEntity = await productRepository.GetProductById(productId);
+                if (productEntity == null)
+                {
+                    throw new ProductNotFoundException($"Product with id {productId} not found.");
+                }
+                var productName = productEntity.Name;
+                var singleProductInSaleDomain = new SingleProductInSaleDomain
+                {
+                    Id = Guid.Parse(productId),
+                    Name = productName
+                };
+                
+                var productInSaleDomain = new ProductInSaleDomain
+                {
+                    Product = singleProductInSaleDomain,
+                    Quantity = saleDetEntity.Quantity
+                };
+                
+                productsInSaleDomainList.Add(productInSaleDomain);
+            }
+            
+            pastSaleResponseDomain.Products = productsInSaleDomainList;
+            sales.Add(pastSaleResponseDomain);
+        }
+        
+        
+        return sales;
     }
 }

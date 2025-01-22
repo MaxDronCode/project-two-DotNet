@@ -93,4 +93,24 @@ public class ClientsController(IClientService clientService) : ControllerBase
             return NotFound(e.Message);
         }
     }
+
+    [HttpGet("{id}/sales")]
+    public async Task<ActionResult<List<PastSalesResponseDto>>> GetPastSalesOfAClient(string id)
+    {
+        // TODO auth
+        if (!Guid.TryParse(id, out var _))
+        {
+            return BadRequest("Invalid id format.");
+        }
+
+        try
+        {
+            var sales = await clientService.GetPastSalesOfAClient(Guid.Parse(id));
+            return Ok(sales.ToDto());
+        }
+        catch (ClientNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
 }

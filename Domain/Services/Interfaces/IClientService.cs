@@ -13,4 +13,6 @@ public interface IClientService
     Task<ClientDomain> UpdateClient(Guid id, ClientDomain clientDomain);
     
     Task DeleteClient(Guid id);
+    
+    Task<List<PastSalesResponseDomain>> GetPastSalesOfAClient(Guid clientId);
 }

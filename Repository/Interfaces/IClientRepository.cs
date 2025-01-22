@@ -15,4 +15,6 @@ public interface IClientRepository
     Task<ClientEntity> UpdateClient(ClientEntity clientEntity);
     
     Task DeleteClient(ClientEntity clientEntity);
+    
+    Task<List<SaleCabEntity>> GetPastSalesOfAClient(string clientId);
 }

@@ -41,4 +41,12 @@ public class ClientRepository(AppDbContext context) : IClientRepository
         context.Clients.Remove(clientEntity);
         await context.SaveChangesAsync();
     }
+
+    public async Task<List<SaleCabEntity>> GetPastSalesOfAClient(string clientId)
+    {
+        return await context.SalesCab
+            .Include(sale => sale.Details)
+            .Where(sale => sale.ClientId == clientId)
+            .ToListAsync();
+    }
 }
