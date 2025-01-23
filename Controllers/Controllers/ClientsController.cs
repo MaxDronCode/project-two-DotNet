@@ -76,7 +76,6 @@ public class ClientsController(IClientService clientService) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteClient(string id)
     {
-        // TODO return 422 if client has sales
         
         if (!Guid.TryParse(id, out var guidId))
         {
@@ -91,6 +90,10 @@ public class ClientsController(IClientService clientService) : ControllerBase
         catch (ClientNotFoundException e)
         {
             return NotFound(e.Message);
+        }
+        catch (ClientHasPastSalesException e)
+        {
+            return UnprocessableEntity(e.Message);
         }
     }
 

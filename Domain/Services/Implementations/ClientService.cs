@@ -73,6 +73,14 @@ public class ClientService(IClientRepository clientRepository, IProductRepositor
             throw new ClientNotFoundException($"Client with id {id} not found.");
         }
         
+        // Check if client has sales
+        var clientHasPastSales = await clientRepository.DoesClientHaveSales(id.ToString());
+        
+        if (clientHasPastSales)
+        {
+            throw new ClientHasPastSalesException($"Client with id {id} has past sales.");
+        }
+        
         await clientRepository.DeleteClient(existingClient);
     }
 

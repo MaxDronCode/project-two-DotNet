@@ -16,5 +16,7 @@ public interface IClientRepository
     
     Task DeleteClient(ClientEntity clientEntity);
     
+    Task<bool> DoesClientHaveSales(string clientId);
+    
     Task<List<SaleCabEntity>> GetPastSalesOfAClient(string clientId);
 }
