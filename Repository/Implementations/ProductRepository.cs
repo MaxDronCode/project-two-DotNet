@@ -48,6 +48,19 @@ public class ProductRepository(AppDbContext context) : IProductRepository
         }
     }
 
+    public async Task<ProductStockResponseEntity?> GetProductStock(string id)
+    {
+        var result = await context.Products
+            .Where(product => product.Id == id)
+            .Select(product => new ProductStockResponseEntity
+            {
+                Stock = product.Stock
+            })
+            .FirstOrDefaultAsync();
+
+        return result;
+    }
+
     public async Task DeleteProduct(ProductEntity productEntity)
     {
         context.Products.Remove(productEntity);

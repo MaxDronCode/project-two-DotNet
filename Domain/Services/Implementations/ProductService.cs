@@ -80,4 +80,16 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         
         await productRepository.DeleteProduct(existingProduct);
     }
+
+    public async Task<ProductStockResponseDomain> GetProductStock(Guid id)
+    {
+        var existingProduct = await productRepository.GetProductStock(id.ToString());
+
+        if (existingProduct == null)
+        {
+            throw new ProductNotFoundException($"Product with id {id} not found.");
+        }
+        
+        return existingProduct.ToDomain();
+    }
 }

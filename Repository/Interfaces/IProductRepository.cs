@@ -18,4 +18,6 @@ public interface IProductRepository
     Task DeleteProduct(ProductEntity productEntity);
     
     Task SaveChanges();
+    
+    Task<ProductStockResponseEntity?> GetProductStock(string id);
 }

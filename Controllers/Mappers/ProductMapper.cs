@@ -27,4 +27,12 @@ public static class ProductMapper
 
         return domain;
     }
+
+    public static ProductStockResponseDto ToDto(this ProductStockResponseDomain domain)
+    {
+        return new ProductStockResponseDto
+        {
+            Stock = domain.Stock
+        };
+    }
 }

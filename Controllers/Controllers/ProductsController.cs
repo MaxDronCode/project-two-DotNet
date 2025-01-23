@@ -96,4 +96,23 @@ public class ProductsController(IProductService productService) : ControllerBase
         
         return NoContent();
     }
+
+    [HttpGet("{id}/stock")]
+    public async Task<ActionResult<ProductStockResponseDto>> GetProductStock(string id)
+    {
+        if (!Guid.TryParse(id, out var _))
+        {
+            return BadRequest("Invalid id format,");
+        }
+
+        try
+        {
+            var productStock = await productService.GetProductStock(Guid.Parse(id));
+            return Ok(productStock.ToDto());
+        }
+        catch (ProductNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
 }

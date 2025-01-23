@@ -24,4 +24,12 @@ public static class ProductMapper
             Code = domain.Code
         };
     }
+
+    public static ProductStockResponseDomain ToDomain(this ProductStockResponseEntity entity)
+    {
+        return new ProductStockResponseDomain
+        {
+            Stock = entity.Stock
+        };
+    }
 }
