@@ -1,14 +1,21 @@
+using Authentication;
 using Store.Repository.dbConfig;
 using Microsoft.EntityFrameworkCore;
 using Store.Domain.Services.Implementations;
 using Store.Domain.Services.Interfaces;
 using Store.Repository.Implementations;
 using Store.Repository.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Auth
+builder.Services
+    .AddAuthentication("Basic")
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
+builder.Services.AddAuthorization();
 
+// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -47,6 +54,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

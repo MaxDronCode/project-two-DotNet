@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Store.Controllers.Dtos.Product;
 using Store.Controllers.Dtos.Sale;
 using Store.Controllers.Mappers;
@@ -12,6 +13,7 @@ namespace Store.Controllers.Controllers;
 [Route("[controller]")]
 public class SalesController(ISalesService salesService) : ControllerBase
 {
+    [Authorize(AuthenticationSchemes = "Basic")]
     [HttpPost]
     public async Task<ActionResult> CreateSale(SaleRequestDto saleRequestDto)
     {
