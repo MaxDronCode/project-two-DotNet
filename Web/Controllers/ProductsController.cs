@@ -16,18 +16,15 @@ public class ProductsController(IProductService productService) : ControllerBase
         var productsDomain = productService.GetAllProducts();
 
         var productsDto = productsDomain.Select(product => product.ToDto());
-        
+
         return Ok(productsDto);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductResponseDto>> GetProductById(string id)
     {
-        if (!Guid.TryParse(id, out var guidId))
-        {
-            return BadRequest("Invalid id format.");
-        }
-        
+        if (!Guid.TryParse(id, out var guidId)) return BadRequest("Invalid id format.");
+
         try
         {
             var productDomain = await productService.GetProductById(Guid.Parse(id));
@@ -52,15 +49,12 @@ public class ProductsController(IProductService productService) : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpPut("{id}")]
     public async Task<ActionResult<ProductResponseDto>> UpdateProduct(string id, ProductRequestDto productRequestDto)
     {
-        if (!Guid.TryParse(id, out var guidId))
-        {
-            return BadRequest("Invalid id format.");
-        }
-        
+        if (!Guid.TryParse(id, out var guidId)) return BadRequest("Invalid id format.");
+
         try
         {
             var productDomain = await productService.UpdateProduct(Guid.Parse(id), productRequestDto.ToDomain());
@@ -80,10 +74,7 @@ public class ProductsController(IProductService productService) : ControllerBase
     public async Task<ActionResult> DeleteProduct(string id)
     {
         // TODO return 422 if product has sales
-        if (!Guid.TryParse(id, out var _))
-        {
-            return BadRequest("Invalid id format.");
-        }
+        if (!Guid.TryParse(id, out _)) return BadRequest("Invalid id format.");
 
         try
         {
@@ -93,17 +84,14 @@ public class ProductsController(IProductService productService) : ControllerBase
         {
             return NotFound(e.Message);
         }
-        
+
         return NoContent();
     }
 
     [HttpGet("{id}/stock")]
     public async Task<ActionResult<ProductStockResponseDto>> GetProductStock(string id)
     {
-        if (!Guid.TryParse(id, out var _))
-        {
-            return BadRequest("Invalid id format,");
-        }
+        if (!Guid.TryParse(id, out _)) return BadRequest("Invalid id format,");
 
         try
         {

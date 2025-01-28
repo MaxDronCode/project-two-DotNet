@@ -13,8 +13,8 @@ public static class ProductMapper
             Name = entity.Name,
             Code = entity.Code
         };
-    } 
-    
+    }
+
     public static ProductEntity ToEntity(this ProductDomain domain)
     {
         return new ProductEntity

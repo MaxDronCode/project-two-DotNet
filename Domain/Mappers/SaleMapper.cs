@@ -15,12 +15,11 @@ public static class SaleMapper
                 Id = p.Id,
                 Quantity = p.Quantity
             }).ToList()
-
         };
-        
+
         return domain;
     }
-    
+
     public static SaleCabEntity ToEntity(this SaleCabDomain domain)
     {
         var entity = new SaleCabEntity
@@ -32,13 +31,12 @@ public static class SaleMapper
                 ProductId = d.Id.ToString(),
                 Quantity = d.Quantity,
                 SaleId = domain.Id.ToString()
-                
             }).ToList()
         };
-        
+
         return entity;
     }
-    
+
     public static List<ProductInSaleDomain> ToDomain(this List<Top5SoldProductsEntity> entities)
     {
         var domains = entities.Select(entity => new ProductInSaleDomain

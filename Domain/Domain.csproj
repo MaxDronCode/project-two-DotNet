@@ -8,12 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Exceptions\Exceptions.csproj" />
-      <ProjectReference Include="..\Repository\Repository.csproj" />
+        <ProjectReference Include="..\Exceptions\Exceptions.csproj"/>
+        <ProjectReference Include="..\Repository\Repository.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0"/>
     </ItemGroup>
 
 </Project>

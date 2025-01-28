@@ -6,7 +6,8 @@ using Store.Repository.Interfaces;
 
 namespace Store.Domain.Services.Implementations;
 
-public class PurchaseService(IPurchaseCabRepository purchaseRepository, IProductRepository productRepository) : IPurchaseService
+public class PurchaseService(IPurchaseCabRepository purchaseRepository, IProductRepository productRepository)
+    : IPurchaseService
 {
     public async Task CreatePurchase(PurchaseRequestDomain purchaseRequestDomain)
     {
@@ -16,23 +17,20 @@ public class PurchaseService(IPurchaseCabRepository purchaseRepository, IProduct
         {
             // Check if product exists
             var product = await productRepository.GetProductById(detail.ProductId.ToString());
-            
-            if (product == null)
-            {
-                throw new ProductNotFoundException($"Product with id {detail.ProductId} not found");
-            }
-            
+
+            if (product == null) throw new ProductNotFoundException($"Product with id {detail.ProductId} not found");
+
             // Update product stock
             product.Stock += detail.Quantity;
             await productRepository.UpdateProduct(product);
         }
-        
+
         await productRepository.SaveChanges();
-        
+
         purchaseCabDomain.Id = Guid.NewGuid();
-        
+
         purchaseCabDomain.Details.ForEach(detail => detail.PurchaseId = purchaseCabDomain.Id);
-        
+
         await purchaseRepository.CreatePurchase(purchaseCabDomain.ToEntity());
     }
 }

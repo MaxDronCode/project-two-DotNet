@@ -41,7 +41,7 @@ public class ClientRepository(AppDbContext context) : IClientRepository
         context.Clients.Remove(clientEntity);
         await context.SaveChangesAsync();
     }
-    
+
     public async Task<bool> DoesClientHaveSales(string clientId)
     {
         return await context.SalesCab.AnyAsync(sale => sale.ClientId == clientId);

@@ -16,9 +16,9 @@ public class SalesDetRepository(AppDbContext context) : ISalesDetRepository
                 product => product.Id,
                 (salesDet, product) => new
                 {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Quantity = salesDet.Quantity
+                    product.Id,
+                    product.Name,
+                    salesDet.Quantity
                 }
             )
             .GroupBy(x => new { x.Id, x.Name })

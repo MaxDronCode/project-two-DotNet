@@ -15,7 +15,6 @@ public static class SaleMapper
         };
 
         return domain;
-
     }
 
     private static ClientSaleRequestDomain ToDomain(this ClientSaleRequest dto)
@@ -27,7 +26,7 @@ public static class SaleMapper
 
         return domain;
     }
-    
+
     private static List<ProductSaleRequestDomain> ToDomain(this List<ProductSaleRequest> dtos)
     {
         var domain = dtos.Select(dto => new ProductSaleRequestDomain

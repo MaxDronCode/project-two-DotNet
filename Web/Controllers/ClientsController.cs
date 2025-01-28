@@ -17,18 +17,15 @@ public class ClientsController(IClientService clientService) : ControllerBase
         var clientsDomain = clientService.GetAllClients();
 
         var clientsDto = clientsDomain.Select(client => client.ToDto());
-        
+
         return Ok(clientsDto);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ClientResponseDto>> GetClientById(string id)
     {
-        if (!Guid.TryParse(id, out var guidId))
-        {
-            return BadRequest("Invalid id format.");
-        }
-        
+        if (!Guid.TryParse(id, out var guidId)) return BadRequest("Invalid id format.");
+
         try
         {
             var clientDomain = await clientService.GetClientById(Guid.Parse(id));
@@ -39,29 +36,27 @@ public class ClientsController(IClientService clientService) : ControllerBase
             return NotFound(e.Message);
         }
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<ClientResponseDto>> CreateClient(ClientRequestDto clientRequestDto)
     {
         try
         {
             var createdClientDomain = await clientService.CreateClient(clientRequestDto.ToDomain());
-            return CreatedAtAction(nameof(GetClientById), new { id = createdClientDomain.Id }, createdClientDomain.ToDto());
+            return CreatedAtAction(nameof(GetClientById), new { id = createdClientDomain.Id },
+                createdClientDomain.ToDto());
         }
         catch (ClientAlreadyExistsException e)
         {
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpPut("{id}")]
     public async Task<ActionResult<ClientResponseDto>> UpdateClient(string id, ClientRequestDto clientRequestDto)
     {
-        if (!Guid.TryParse(id, out var guidId))
-        {
-            return BadRequest("Invalid id format.");
-        }
-        
+        if (!Guid.TryParse(id, out var guidId)) return BadRequest("Invalid id format.");
+
         try
         {
             var updatedClientDomain = await clientService.UpdateClient(Guid.Parse(id), clientRequestDto.ToDomain());
@@ -72,16 +67,12 @@ public class ClientsController(IClientService clientService) : ControllerBase
             return NotFound(e.Message);
         }
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteClient(string id)
     {
-        
-        if (!Guid.TryParse(id, out var guidId))
-        {
-            return BadRequest("Invalid id format.");
-        }
-        
+        if (!Guid.TryParse(id, out var guidId)) return BadRequest("Invalid id format.");
+
         try
         {
             await clientService.DeleteClient(Guid.Parse(id));
@@ -101,10 +92,7 @@ public class ClientsController(IClientService clientService) : ControllerBase
     public async Task<ActionResult<List<PastSalesResponseDto>>> GetPastSalesOfAClient(string id)
     {
         // TODO auth
-        if (!Guid.TryParse(id, out var _))
-        {
-            return BadRequest("Invalid id format.");
-        }
+        if (!Guid.TryParse(id, out _)) return BadRequest("Invalid id format.");
 
         try
         {

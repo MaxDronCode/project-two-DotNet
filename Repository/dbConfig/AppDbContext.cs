@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Store.Repository.Entities;
 
 namespace Store.Repository.dbConfig;
@@ -8,13 +7,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
     public DbSet<ClientEntity> Clients { get; set; }
     public DbSet<ProductEntity> Products { get; set; }
-    
+
     public DbSet<SaleCabEntity> SalesCab { get; set; }
-    
+
     public DbSet<SaleDetEntity> SalesDet { get; set; }
-    
+
     public DbSet<PurchaseCabEntity> PurchasesCab { get; set; }
-    
+
     public DbSet<PurchaseDetEntity> PurchasesDet { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,7 +45,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(e => e.Stock)
                 .IsRequired();
         });
-        
+
         modelBuilder.Entity<SaleCabEntity>(entity =>
         {
             entity.ToTable("sales_cab");
@@ -67,7 +66,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<SaleDetEntity>(entity =>
         {
             entity.ToTable("sales_det");
-            entity.HasKey(saleDet => new {saleDet.SaleId, saleDet.ProductId});
+            entity.HasKey(saleDet => new { saleDet.SaleId, saleDet.ProductId });
             entity.Property(e => e.SaleId)
                 .IsRequired();
             entity.Property(e => e.ProductId)

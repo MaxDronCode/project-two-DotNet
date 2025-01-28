@@ -1,11 +1,11 @@
-using Authentication;
-using Store.Repository.dbConfig;
+using Auth;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Store.Domain.Services.Implementations;
 using Store.Domain.Services.Interfaces;
+using Store.Repository.dbConfig;
 using Store.Repository.Implementations;
 using Store.Repository.Interfaces;
-using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,17 +29,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 // Dependencies
-    // Client
+// Client
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
-    // Product
+// Product
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
-    // Sale
+// Sale
 builder.Services.AddScoped<ISalesCabRepository, SalesCabRepository>();
 builder.Services.AddScoped<ISalesService, SalesService>();
 builder.Services.AddScoped<ISalesDetRepository, SalesDetRepository>();
-    // Purchase
+// Purchase
 builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 builder.Services.AddScoped<IPurchaseCabRepository, PurchaseCabRepository>();
 

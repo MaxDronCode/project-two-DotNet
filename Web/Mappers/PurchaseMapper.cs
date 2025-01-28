@@ -13,7 +13,7 @@ public static class PurchaseMapper
             Products = dto.Products.Select(product => product.ToDomain()).ToList()
         };
     }
-    
+
     private static ProductInPurchaseDomain ToDomain(this ProductToPurchase dto)
     {
         return new ProductInPurchaseDomain

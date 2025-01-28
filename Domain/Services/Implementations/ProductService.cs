@@ -2,7 +2,6 @@
 using Store.Domain.Models;
 using Store.Domain.Services.Interfaces;
 using Store.Exceptions.Product;
-using Store.Repository.Entities;
 using Store.Repository.Interfaces;
 
 namespace Store.Domain.Services.Implementations;
@@ -19,11 +18,8 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     public async Task<ProductDomain> GetProductById(Guid id)
     {
         var productEntity = await productRepository.GetProductById(id.ToString());
-        
-        if (productEntity == null)
-        {
-            throw new ProductNotFoundException($"Product with id {id} not found.");
-        }
+
+        if (productEntity == null) throw new ProductNotFoundException($"Product with id {id} not found.");
 
         return productEntity.ToDomain();
     }
@@ -31,16 +27,14 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     public async Task<ProductDomain> CreateProduct(ProductDomain productDomain)
     {
         var existingProductCode = await productRepository.FindProductByCode(productDomain.Code);
-        
+
         if (existingProductCode != null)
-        {
             throw new ProductAlreadyExistsException($"Product with code {productDomain.Code} already exists.");
-        }
-        
+
         productDomain.Id = Guid.NewGuid();
-        
+
         var productEntity = await productRepository.CreateProduct(productDomain.ToEntity());
-        
+
         return productEntity.ToDomain();
     }
 
@@ -48,24 +42,19 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     {
         var existingProduct = await productRepository.GetProductById(id.ToString());
 
-        if (existingProduct == null)
-        {
-            throw new ProductNotFoundException($"Id {id} not found.");
-        }
-        
+        if (existingProduct == null) throw new ProductNotFoundException($"Id {id} not found.");
+
         var productCodeAlreadyExists = await productRepository.FindProductByCode(productDomain.Code);
-        
+
         if (productCodeAlreadyExists != null && productCodeAlreadyExists.Id != id.ToString())
-        {
             throw new ProductAlreadyExistsException($"Product with code {productDomain.Code} already exists.");
-        }
 
         existingProduct.Code = productDomain.Code;
         existingProduct.Name = productDomain.Name;
 
         var updatedProduct = await productRepository.UpdateProduct(existingProduct);
         await productRepository.SaveChanges();
-        
+
         return updatedProduct.ToDomain();
     }
 
@@ -73,11 +62,8 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     {
         var existingProduct = await productRepository.GetProductById(id.ToString());
 
-        if (existingProduct == null)
-        {
-            throw new ProductNotFoundException($"Product with id {id} not found.");
-        }
-        
+        if (existingProduct == null) throw new ProductNotFoundException($"Product with id {id} not found.");
+
         await productRepository.DeleteProduct(existingProduct);
     }
 
@@ -85,11 +71,8 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     {
         var existingProduct = await productRepository.GetProductStock(id.ToString());
 
-        if (existingProduct == null)
-        {
-            throw new ProductNotFoundException($"Product with id {id} not found.");
-        }
-        
+        if (existingProduct == null) throw new ProductNotFoundException($"Product with id {id} not found.");
+
         return existingProduct.ToDomain();
     }
 }
