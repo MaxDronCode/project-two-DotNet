@@ -36,6 +36,7 @@ public class SalesController(ISalesService salesService) : ControllerBase
         }
     }
 
+    [Authorize(AuthenticationSchemes = "Basic")]
     [HttpGet("most-sold-products")]
     public async Task<ActionResult<List<ProductInSaleDto>>> GetMostSoldProducts()
     {

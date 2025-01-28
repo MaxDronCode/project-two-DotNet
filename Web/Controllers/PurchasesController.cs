@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Store.Controllers.Dtos.Purchase;
 using Store.Controllers.Mappers;
 using Store.Domain.Services.Interfaces;
@@ -10,6 +11,8 @@ namespace Store.Controllers.Controllers;
 [Route("[controller]")]
 public class PurchasesController(IPurchaseService purchaseService) : ControllerBase
 {
+    [Authorize(AuthenticationSchemes = "Basic")]
+    [HttpPost]
     public async Task<ActionResult> CreatePurchase(PurchaseRequestDto purchaseRequestDto)
     {
         try

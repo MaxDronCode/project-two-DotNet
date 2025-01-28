@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Store.Controllers.Dtos;
 using Store.Controllers.Dtos.Client;
 using Store.Controllers.Mappers;
@@ -88,6 +89,7 @@ public class ClientsController(IClientService clientService) : ControllerBase
         }
     }
 
+    [Authorize(AuthenticationSchemes = "Basic")]
     [HttpGet("{id}/sales")]
     public async Task<ActionResult<List<PastSalesResponseDto>>> GetPastSalesOfAClient(string id)
     {
